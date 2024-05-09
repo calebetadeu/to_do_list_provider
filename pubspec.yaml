@@ -37,6 +37,10 @@ dependencies:
   cupertino_icons: ^1.0.6
   provider: ^6.1.2
   sqflite: ^2.3.3+1
+  path: ^1.9.0
+  nested: ^1.0.0
+  google_fonts: ^6.2.1
+  flutter_signin_button: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -61,9 +65,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -76,10 +80,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: TodoListIcons
+      fonts:
+        - asset: assets/fonts/TodoListIcons.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
