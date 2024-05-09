@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "499337704272",
+    "project_id": "todo-list-calebe",
+    "storage_bucket": "todo-list-calebe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499337704272:android:5de8b0bd303061ddb77255",
+        "android_client_info": {
+          "package_name": "br.com.academiadoflutter.to_do_list_provider"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnbZlGoNRP4W0N6hu_x33T2aUSlAIbnxc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
