@@ -13,17 +13,19 @@ class AppWidget extends StatefulWidget {
 }
 
 class _AppWidgetState extends State<AppWidget> {
+
   final sqliteAdmConnection = SqliteAdmConnection();
+  
   @override
   void initState() {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    WidgetsBinding.instance?.addObserver(sqliteAdmConnection);
+    //FirebaseAuth auth = FirebaseAuth.instance;
+    WidgetsBinding.instance.addObserver(sqliteAdmConnection);
     super.initState();
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(sqliteAdmConnection);
+    WidgetsBinding.instance.removeObserver(sqliteAdmConnection);
     super.dispose();
   }
 
