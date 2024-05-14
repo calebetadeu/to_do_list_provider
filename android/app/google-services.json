@@ -12,7 +12,12 @@
           "package_name": "br.com.academiadoflutter.to_do_list_provider"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "499337704272-fq25qfokobcg27i7lfrcrn4qg0nll4n8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBnbZlGoNRP4W0N6hu_x33T2aUSlAIbnxc"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "499337704272-fq25qfokobcg27i7lfrcrn4qg0nll4n8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "499337704272-96cadlf7rj6ljor516gj9pob166nel0a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.com.academiadoflutter.toDoListProvider"
+              }
+            }
+          ]
         }
       }
     }
