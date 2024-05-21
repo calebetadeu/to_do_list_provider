@@ -1,10 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:provider/provider.dart';
+import 'package:to_do_list_provider/app/core/notifier/default_listener_notifier.dart';
+import 'package:to_do_list_provider/app/core/ui/messages.dart';
 import 'package:to_do_list_provider/app/core/widget/to_do_list_field.dart';
 import 'package:to_do_list_provider/app/core/widget/to_do_list_logo.dart';
 import 'package:to_do_list_provider/app/modules/auth/login/login_controller.dart';
+import 'package:validatorless/validatorless.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,6 +19,29 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailEC = TextEditingController();
+  final _passwordEC = TextEditingController();
+  final _emailFocus = FocusNode();
+  @override
+  void initState() {
+    super.initState();
+    DefaultListenerNotifier(changeNotifier: context.read<LoginController>())
+        .listener(
+      context: context,
+      everVoidCallback: (notifier, listenerInstance) {
+        if (notifier is LoginController) {
+          if (notifier.hasInfo) {
+            Messages.of(context).showInfo(notifier.infoMessage!);
+          }
+        }
+      },
+      successCallback: ((notifier, listenerInstance) {
+        log('Login efetuado com sucesso');
+      }),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Provider.of<LoginController>(context);
@@ -36,14 +64,29 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Form(
+                      key: _formKey,
                       child: Column(
                         children: [
-                          ToDoListField(label: 'E-mail'),
+                          ToDoListField(
+                            label: 'E-mail',
+                            focusNode: _emailFocus,
+                            controller: _emailEC,
+                            validator: Validatorless.multiple([
+                              Validatorless.required('E-mail obrigatório'),
+                              Validatorless.email('E-mail inváilido')
+                            ]),
+                          ),
                           const SizedBox(
                             height: 20,
                           ),
                           ToDoListField(
                             label: 'Senha',
+                            controller: _passwordEC,
+                            validator: Validatorless.multiple([
+                              Validatorless.required('E-mail obrigatório'),
+                              Validatorless.min(6,
+                                  'Senha deve conter pelo menos 6 caracteres')
+                            ]),
                             isObscureText: true,
                           ),
                           const SizedBox(
@@ -53,12 +96,33 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    if (_emailEC.text.isNotEmpty) {
+                                      context
+                                          .read<LoginController>()
+                                          .forgotPassword(_emailEC.text);
+                                    } else {
+                                      _emailFocus.requestFocus();
+                                      Messages.of(context).showError(
+                                          'Digite um email para recuper a senha');
+                                    }
+                                  },
                                   child: const Text("Esqueceu sua senha?")),
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    final formValid =
+                                        _formKey.currentState?.validate() ??
+                                            false;
+                                    if (formValid) {
+                                      final email = _emailEC.text;
+                                      final password = _passwordEC.text;
+                                      context
+                                          .read<LoginController>()
+                                          .login(email, password);
+                                    }
+                                  },
                                   style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -95,7 +159,10 @@ class _LoginPageState extends State<LoginPage> {
                             shape: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
                                 borderSide: BorderSide.none),
-                            onPressed: () {},
+                            onPressed: () {
+                              context.read<LoginController>().googleLogin();
+                            
+                            },
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
@@ -11,13 +10,17 @@ class DefaultListenerNotifier {
   DefaultListenerNotifier({
     required this.changeNotifier,
   });
-  void listener({
-    required BuildContext context,
-    required SuccessVoidCallback successCallback,
-    ErrorVoidCallback? errorCallback
-  }) {
+  void listener(
+      {required BuildContext context,
+      required SuccessVoidCallback successCallback,
+      ErrorVoidCallback? errorCallback,
+      EverVoidCallback? everVoidCallback}) {
     changeNotifier.addListener(
       () {
+        if (everVoidCallback != null) {
+          everVoidCallback(changeNotifier, this);
+        }
+
         if (changeNotifier.loading) {
           Loader.show(context);
         } else {
@@ -25,8 +28,8 @@ class DefaultListenerNotifier {
         }
 
         if (changeNotifier.hasError) {
-          if(errorCallback != null){
-            errorCallback(changeNotifier,this);
+          if (errorCallback != null) {
+            errorCallback(changeNotifier, this);
           }
           Messages.of(context)
               .showError(changeNotifier.error ?? 'Erro interno');
@@ -45,4 +48,6 @@ class DefaultListenerNotifier {
 typedef SuccessVoidCallback = void Function(
     DefaultChangeNotifier notifier, DefaultListenerNotifier listenerNotifier);
 typedef ErrorVoidCallback = void Function(
+    DefaultChangeNotifier notifier, DefaultListenerNotifier listenerNotifier);
+typedef EverVoidCallback = void Function(
     DefaultChangeNotifier notifier, DefaultListenerNotifier listenerNotifier);
